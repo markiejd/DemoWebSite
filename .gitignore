@@ -1,0 +1,5 @@
+node_modules/
+local-assessor/
+playwright-report/
+test-results/
+.DS_Store

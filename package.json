@@ -1,0 +1,16 @@
+{
+  "name": "frame-cinema",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node tools/serve.mjs",
+    "test": "playwright test --config local-assessor/playwright.config.js",
+    "test:report": "playwright show-report",
+    "check": "node --check site/app.js && node --test tools/publication.test.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.0",
+    "exceljs": "^4.4.0"
+  }
+}

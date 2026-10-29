@@ -1,0 +1,46 @@
+name: Cinema automation report
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: candidate-report
+  cancel-in-progress: true
+jobs:
+  test-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      BASE_URL: ${{ vars.BASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check target URL
+        run: node -e "if (!process.env.BASE_URL || !/^https:\/\//.test(process.env.BASE_URL)) throw new Error('Set the BASE_URL repository variable to the cinema HTTPS URL, including its trailing slash.')"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Execute tests
+        id: tests
+        continue-on-error: true
+        run: npm test
+      - name: Check report exists
+        run: test -f playwright-report/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: playwright-report
+      - name: Publish report
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Preserve failing test status
+        if: steps.tests.outcome == 'failure'
+        run: exit 1
