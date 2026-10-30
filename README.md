@@ -4,6 +4,8 @@ A fictional, static cinema booking site. No accounts, payments, database or API 
 
 ## Preview
 
+The live site is published at [https://markiejd.github.io/DemoWebSite/](https://markiejd.github.io/DemoWebSite/).
+
 Requires Node.js 22 or newer.
 
 ```sh
@@ -13,7 +15,9 @@ npm start
 
 Open http://localhost:4173. The server exposes only the `site` directory.
 
-## Free GitHub Pages hosting
+## GitHub Pages hosting
+
+This repository is published with GitHub Actions. To publish a copy from another repository:
 
 1. Create a **public** GitHub repository. GitHub Free supports Pages for public repositories. Do not upload this whole folder through the browser; use Git so the exclusions apply.
 2. From this folder, run `git init -b main`, then `git add .`. Before committing, run `git diff --cached --name-only` and check that no private/local files are listed.
